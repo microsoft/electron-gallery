@@ -1,0 +1,17 @@
+{
+  "name": "electron-gallery",
+  "version": "1.0.0",
+  "description": "An Electron app which shows sample functionality of the Electron platform.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "https://github.com/microsoft/electron-gallery",
+  "author": "Microsoft",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "electron": "^37.2.5"
+  }
+}
