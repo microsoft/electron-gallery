@@ -1,9 +1,726 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Electron Gallery Homepage</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron Gallery</title>
+    <style>
+      /* Fluent UI Design System Variables */
+      :root {
+        /* Fluent UI Color Tokens - Light Theme */
+        --color-neutral-background-1: #ffffff;
+        --color-neutral-background-2: #fafafa;
+        --color-neutral-background-3: #f5f5f5;
+        --color-neutral-background-4: #f0f0f0;
+        --color-neutral-background-5: #ebebeb;
+        --color-neutral-background-6: #e1e1e1;
+        
+        --color-neutral-foreground-1: #242424;
+        --color-neutral-foreground-2: #424242;
+        --color-neutral-foreground-3: #616161;
+        --color-neutral-foreground-4: #757575;
+        
+        --color-neutral-stroke-1: #d1d1d1;
+        --color-neutral-stroke-2: #c7c7c7;
+        --color-neutral-stroke-accessible: #616161;
+        
+        --color-brand-background-1: #0078d4;
+        --color-brand-background-2: #106ebe;
+        --color-brand-foreground-1: #ffffff;
+        
+        --color-subtle-background: #f9f9f9;
+        --color-subtle-background-hover: #f3f3f3;
+        --color-subtle-background-pressed: #eeeeee;
+        
+        --color-neutral-background-inverted: #292929;
+        
+        /* Fluent UI Shadow Tokens */
+        --shadow-2: 0px 1px 2px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12);
+        --shadow-4: 0px 2px 4px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12);
+        --shadow-8: 0px 4px 8px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12);
+        --shadow-16: 0px 8px 16px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12);
+        --shadow-28: 0px 14px 28px rgba(0, 0, 0, 0.24), 0px 0px 8px rgba(0, 0, 0, 0.2);
+        
+        /* Fluent UI Typography Tokens */
+        --font-family-base: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+        --font-size-base-100: 10px;
+        --font-size-base-200: 12px;
+        --font-size-base-300: 14px;
+        --font-size-base-400: 16px;
+        --font-size-base-500: 20px;
+        --font-size-base-600: 24px;
+        --font-size-hero-700: 28px;
+        --font-size-hero-800: 32px;
+        --font-size-hero-900: 40px;
+        --font-size-hero-1000: 68px;
+        
+        --font-weight-regular: 400;
+        --font-weight-medium: 500;
+        --font-weight-semibold: 600;
+        
+        --line-height-base-100: 14px;
+        --line-height-base-200: 16px;
+        --line-height-base-300: 20px;
+        --line-height-base-400: 22px;
+        --line-height-base-500: 28px;
+        --line-height-base-600: 32px;
+        --line-height-hero-700: 36px;
+        --line-height-hero-800: 40px;
+        --line-height-hero-900: 52px;
+        --line-height-hero-1000: 92px;
+        
+        /* Fluent UI Spacing Tokens */
+        --spacing-horizontal-xs: 2px;
+        --spacing-horizontal-sNudge: 4px;
+        --spacing-horizontal-s: 8px;
+        --spacing-horizontal-mNudge: 12px;
+        --spacing-horizontal-m: 16px;
+        --spacing-horizontal-l: 20px;
+        --spacing-horizontal-xl: 24px;
+        --spacing-horizontal-xxl: 32px;
+        --spacing-horizontal-xxxl: 40px;
+        
+        --spacing-vertical-xs: 2px;
+        --spacing-vertical-sNudge: 4px;
+        --spacing-vertical-s: 8px;
+        --spacing-vertical-mNudge: 12px;
+        --spacing-vertical-m: 16px;
+        --spacing-vertical-l: 20px;
+        --spacing-vertical-xl: 24px;
+        --spacing-vertical-xxl: 32px;
+        --spacing-vertical-xxxl: 40px;
+        
+        /* Fluent UI Border Radius Tokens */
+        --border-radius-none: 0px;
+        --border-radius-small: 2px;
+        --border-radius-medium: 4px;
+        --border-radius-large: 6px;
+        --border-radius-xlarge: 8px;
+        --border-radius-circular: 50%;
+        
+        /* Fluent UI Motion Tokens */
+        --duration-ultra-fast: 50ms;
+        --duration-faster: 100ms;
+        --duration-fast: 150ms;
+        --duration-normal: 200ms;
+        --duration-gentle: 250ms;
+        --duration-slow: 300ms;
+        --duration-slower: 400ms;
+        --duration-ultra-slow: 500ms;
+        
+        --curve-accelerate-max: cubic-bezier(0.9, 0.1, 1, 0.2);
+        --curve-accelerate-mid: cubic-bezier(1, 0, 1, 1);
+        --curve-decelerate-max: cubic-bezier(0.1, 0.9, 0.2, 1);
+        --curve-decelerate-mid: cubic-bezier(0, 0, 0, 1);
+        --curve-easy-ease: cubic-bezier(0.33, 0, 0.67, 1);
+        --curve-linear: cubic-bezier(0, 0, 1, 1);
+      }
+
+      /* Dark Theme */
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --color-neutral-background-1: #1e1e1e;
+          --color-neutral-background-2: #292929;
+          --color-neutral-background-3: #2e2e2e;
+          --color-neutral-background-4: #333333;
+          --color-neutral-background-5: #383838;
+          --color-neutral-background-6: #404040;
+          
+          --color-neutral-foreground-1: #ffffff;
+          --color-neutral-foreground-2: #f5f5f5;
+          --color-neutral-foreground-3: #e1e1e1;
+          --color-neutral-foreground-4: #c7c7c7;
+          
+          --color-neutral-stroke-1: #484848;
+          --color-neutral-stroke-2: #525252;
+          
+          --color-subtle-background: #242424;
+          --color-subtle-background-hover: #2e2e2e;
+          --color-subtle-background-pressed: #383838;
+          
+          --color-neutral-background-inverted: #ffffff;
+        }
+        
+        /* Dark Theme Adjustments for Hero Image */
+        .hero-section {
+          background: #020B20;
+          filter: brightness(0.8);
+        }
+        
+        .hero-overlay {
+          background: linear-gradient(180deg, 
+            transparent 65%,  
+            #1e1e1e 90%) !important;
+        }
+
+        .electron-version {
+          color: var(--color-neutral-foreground-1);
+        }
+
+        .page-title {
+          color: var(--color-neutral-foreground-1);
+        }
+        
+        /* Dark mode Partner Center logo */
+        .partner-center-logo {
+          content: url('assets/Header-Store.dark.png');
+        }
+        
+        /* Dark mode GitHub logo */
+        .github-logo {
+          content: url('assets/Header-Github.dark.png');
+        }
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-family-base);
+        font-size: var(--font-size-base-300);
+        line-height: var(--line-height-base-300);
+        font-weight: var(--font-weight-regular);
+        background-color: var(--color-neutral-background-2);
+        color: var(--color-neutral-foreground-1);
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      .container {
+        width: 100%;
+        min-height: 100vh;
+      }
+
+      .hero-section {
+        position: relative;
+        height: auto;
+        min-height: 300px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        background: linear-gradient(180deg, #CED8E4 0%,#D5DBE3 100%);
+      }
+
+      .hero-image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('https://github.com/microsoft/react-native-gallery/blob/main/assets/GalleryHeaderImage.png?raw=true');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 1;
+      }
+
+      .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" fill="none"><defs><pattern id="fluent-grid" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse"><circle cx="30" cy="30" r="1" fill="white" opacity="0.05"/></pattern></defs><rect width="100%" height="100%" fill="url(%23fluent-grid)"/></svg>') repeat;
+        z-index: 2;
+      }
+
+      .hero-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, 
+          transparent 65%, 
+          var(--color-neutral-background-2) 90%);
+        z-index: 3;
+      }
+
+      .page-title-container {
+        position: relative;
+        z-index: 5;
+        padding: 0 var(--spacing-horizontal-xxxl);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding-top: 30px;
+        margin-bottom: var(--spacing-vertical-xxxl);
+      }
+
+      .electron-version {
+        font-size: var(--font-size-base-200);
+        line-height: var(--line-height-base-200);
+        font-weight: var(--font-weight-medium);
+        color: var(--color-neutral-foreground-2);
+        margin-left: 3px;
+      }
+
+      .page-title {
+        font-size: var(--font-size-hero-900);
+        line-height: var(--line-height-hero-900);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-neutral-foreground-1);
+      }
+
+      .content-section {
+        padding: var(--spacing-vertical-xl) var(--spacing-horizontal-xxxl);
+        padding-top: var(--spacing-vertical-xxxl);
+        max-width: 1400px;
+        margin: 0 auto;
+        background: var(--color-neutral-background-2);
+        position: relative;
+        z-index: 5;
+      }
+
+      .tile-gallery-container {
+        position: relative;
+        padding: 0 var(--spacing-horizontal-xxxl);
+        padding-bottom: var(--spacing-vertical-m);
+        background: transparent;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        z-index: 6;
+      }
+
+      .tile-gallery-container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .tile-gallery-scroll {
+        display: flex;
+        gap: var(--spacing-horizontal-mNudge);
+        min-width: fit-content;
+      }
+
+      .header-tile {
+        background: var(--color-subtle-background);
+        border: 1px solid var(--color-neutral-stroke-1);
+        border-radius: var(--border-radius-xlarge);
+        padding: var(--spacing-vertical-mNudge);
+        width: 160px;
+        min-height: 180px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        cursor: pointer;
+        transition: all var(--duration-normal) var(--curve-easy-ease);
+        position: relative;
+        flex-shrink: 0;
+      }
+
+      .header-tile:hover {
+        background: var(--color-subtle-background-hover);
+      }
+
+      .header-tile:active {
+        transform: none;
+      }
+
+      .header-tile:focus {
+        outline: none;
+      }
+
+      .tile-icon-content {
+        height: 40px;
+        margin-bottom: var(--spacing-vertical-sNudge);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .tile-icon-content img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+      }
+
+      .tile-icon-content .fluent-icon {
+        font-family: 'Segoe Fluent Icons', 'Segoe MDL2 Assets', sans-serif;
+        font-size: 32px;
+        color: var(--color-brand-background-1);
+      }
+
+      .header-tile-title {
+        font-size: var(--font-size-base-400);
+        line-height: var(--line-height-base-400);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-neutral-foreground-1);
+        margin-bottom: var(--spacing-vertical-xs);
+      }
+
+      .header-tile-description {
+        font-size: var(--font-size-base-100);
+        line-height: var(--line-height-base-100);
+        color: var(--color-neutral-foreground-3);
+        flex-grow: 1;
+        margin-bottom: var(--spacing-vertical-sNudge);
+      }
+
+      .tile-link-icon {
+        font-family: 'Segoe MDL2 Assets', sans-serif;
+        font-size: var(--font-size-base-400);
+        color: var(--color-neutral-foreground-1);
+        align-self: flex-end;
+      }
+
+      .section {
+        margin-bottom: var(--spacing-vertical-xxxl);
+      }
+
+      .section-heading {
+        font-size: var(--font-size-base-600);
+        line-height: var(--line-height-base-600);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-neutral-foreground-1);
+        margin-bottom: var(--spacing-vertical-l);
+      }
+
+      .component-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: var(--spacing-horizontal-m);
+      }
+
+      .component-item {
+        background: var(--color-neutral-background-1);
+        border: 1px solid var(--color-neutral-stroke-1);
+        border-radius: var(--border-radius-large);
+        padding: var(--spacing-vertical-m) var(--spacing-horizontal-m);
+        transition: all var(--duration-faster) var(--curve-easy-ease);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        outline: none;
+      }
+
+      .component-item:focus {
+        outline: none;
+      }
+
+      .component-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--color-subtle-background);
+        opacity: 0;
+        transition: opacity var(--duration-faster) var(--curve-easy-ease);
+        z-index: 0;
+      }
+
+      .component-item::after {
+        content: '';
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 8px;
+        height: 8px;
+        background: var(--color-brand-background-1);
+        border-radius: var(--border-radius-circular);
+        z-index: 2;
+      }
+
+      .component-item:hover {
+        border-color: var(--color-neutral-foreground-4);
+      }
+
+      .component-item:hover .component-title,
+      .component-item:hover .component-description {
+        color: var(--color-neutral-foreground-4);
+      }
+
+      .component-item:focus {
+        border-color: var(--color-neutral-stroke-1);
+      }
+
+      .component-item > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .component-title {
+        font-size: var(--font-size-base-400);
+        line-height: var(--line-height-base-400);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-neutral-foreground-1);
+        margin-bottom: var(--spacing-vertical-sNudge);
+        display: flex;
+        align-items: center;
+      }
+
+      .component-description {
+        font-size: var(--font-size-base-200);
+        line-height: var(--line-height-base-200);
+        color: var(--color-neutral-foreground-3);
+      }
+
+      /* Fluent UI Focus Styles */
+      .component-item:focus-visible,
+      .header-tile:focus-visible {
+        outline: none;
+      }
+
+      /* Fluent UI Scrollbar Styles */
+      ::-webkit-scrollbar {
+        width: 12px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--color-neutral-background-3);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--color-neutral-stroke-1);
+        border-radius: var(--border-radius-large);
+        border: 2px solid var(--color-neutral-background-3);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--color-neutral-stroke-2);
+      }
+
+      /* Reduced Motion Support */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      /* High Contrast Mode Support */
+      @media (forced-colors: active) {
+        .component-item {
+          border: 1px solid ButtonText;
+        }
+        
+        .component-title {
+          color: ButtonText;
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>Electron Gallery</h1>
+    <div class="container">
+      <!-- Hero Section -->
+      <div class="hero-section">
+        <div class="hero-image-overlay"></div>
+        <div class="hero-background"></div>
+        <div class="hero-overlay"></div>
+        <div class="page-title-container">
+          <div class="electron-version">Electron v37.2.5</div>
+          <h1 class="page-title">Electron Gallery</h1>
+        </div>
+
+        <!-- Tile Gallery -->
+        <div class="tile-gallery-container">
+          <div class="tile-gallery-scroll">
+            <div class="header-tile" onclick="openExternalLink('https://www.electronjs.org/docs/latest/tutorial/tutorial-first-app')" tabindex="0" role="button" aria-label="Getting started">
+              <div class="tile-icon-content">
+                <img src="assets/electron logo.svg" alt="Electron Logo" />
+              </div>
+              <div class="header-tile-title">Getting started</div>
+              <div class="header-tile-description">An overview of app development options, tools, and samples.</div>
+              <span class="tile-link-icon">&#xE8A7;</span>
+            </div>
+            <div class="header-tile" onclick="openExternalLink('https://www.electronjs.org/')" tabindex="0" role="button" aria-label="Electron">
+              <div class="tile-icon-content">
+                <img src="assets/electron logo.svg" alt="Electron Logo" />
+              </div>
+              <div class="header-tile-title">Documentation</div>
+              <div class="header-tile-description">Complete guides and API references for Electron development</div>
+              <span class="tile-link-icon">&#xE8A7;</span>
+            </div>
+            <div class="header-tile" onclick="openExternalLink('https://learn.microsoft.com/en-us/windows/apps/design/')" tabindex="0" role="button" aria-label="Windows design">
+              <div class="tile-icon-content">
+                <img src="assets/Header-WindowsDesign.png" alt="Windows Design Logo" />
+              </div>
+              <div class="header-tile-title">Windows design</div>
+              <div class="header-tile-description">Design guidelines and toolkits for creating native app experiences.</div>
+              <span class="tile-link-icon">&#xE8A7;</span>
+            </div>
+            <div class="header-tile" onclick="openExternalLink('https://github.com/electron/electron')" tabindex="0" role="button" aria-label="GitHub">
+              <div class="tile-icon-content">
+                <img src="assets/Header-Github.light.png" alt="GitHub Logo" class="github-logo" />
+              </div>
+              <div class="header-tile-title">GitHub</div>
+              <div class="header-tile-description">Repository for Electron framework and community contributions.</div>
+              <span class="tile-link-icon">&#xE8A7;</span>
+            </div>
+            <div class="header-tile" onclick="openExternalLink('https://www.electronjs.org/docs/latest/tutorial/examples')" tabindex="0" role="button" aria-label="Code samples">
+              <div class="tile-icon-content">
+                <span class="fluent-icon">&#xE943;</span>
+              </div>
+              <div class="header-tile-title">Code samples</div>
+              <div class="header-tile-description">Find samples that demonstrate specific tasks, features, and APIs.</div>
+              <span class="tile-link-icon">&#xE8A7;</span>
+            </div>
+            <div class="header-tile" onclick="openExternalLink('https://developer.microsoft.com/en-us/windows/')" tabindex="0" role="button" aria-label="Partner Center">
+              <div class="tile-icon-content">
+                <img src="assets/Header-Store.light.png" alt="Partner Center Logo" class="partner-center-logo" />
+              </div>
+              <div class="header-tile-title">Partner Center</div>
+              <div class="header-tile-description">Discover apps built with Electron by companies and developers.</div>
+              <span class="tile-link-icon">&#xE8A7;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Section -->
+      <div class="content-section">
+        <!-- Recently Added Samples -->
+        <div class="section">
+          <h2 class="section-heading">Recently added samples</h2>
+          <div class="component-list">
+            <div class="component-item" onclick="openSample('webview')" tabindex="0" role="button" aria-label="Open WebView Integration sample">
+              <div class="component-title">
+                App Actions
+              </div>
+              <div class="component-description">
+                Create and embed invokable app actions into your Electron applications.
+              </div>
+            </div>
+            <div class="component-item" onclick="openSample('notifications')" tabindex="0" role="button" aria-label="Open Native Notifications sample">
+              <div class="component-title">
+                Model Context Protocol
+              </div>
+              <div class="component-description">
+                Invoke tools and access model context in your Electron applications.
+              </div>
+            </div>
+            <div class="component-item" onclick="openSample('ipc-advanced')" tabindex="0" role="button" aria-label="Open Advanced IPC Patterns sample">
+              <div class="component-title">
+                Phi Silica Text Generation
+              </div>
+              <div class="component-description">
+                Integrate advanced text generation capabilities using Phi Silica models.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recently Updated Samples -->
+        <div class="section">
+          <h2 class="section-heading">Recently updated samples</h2>
+          <div class="component-list">
+            <div class="component-item" onclick="openSample('menu-updates')" tabindex="0" role="button" aria-label="Open Menu System sample">
+              <div class="component-title">
+                WinAppSDK
+              </div>
+              <div class="component-description">
+                Integrate WinAppSDK features like Scene Graph and native Windows APIs into your Electron apps.
+              </div>
+            </div>
+            <div class="component-item" onclick="openSample('file-handling')" tabindex="0" role="button" aria-label="Open File System Access sample">
+              <div class="component-title">
+               WinUI
+              </div>
+              <div class="component-description">
+                Use WinUI controls and styles in your Electron applications.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Enhanced navigation functions
+      function navigateToSection(section) {
+        console.log(`Navigating to ${section} section`);
+        document.dispatchEvent(new CustomEvent('fluent-navigation', {
+          detail: { section: section }
+        }));
+      }
+
+      function openSample(sample) {
+        console.log(`Opening ${sample} sample`);
+        document.dispatchEvent(new CustomEvent('fluent-sample-open', {
+          detail: { sample: sample }
+        }));
+      }
+
+      function openExternalLink(url) {
+        console.log(`Opening external link: ${url}`);
+        window.open(url, '_blank');
+      }
+
+      // Theme management
+      function updateTheme() {
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        document.dispatchEvent(new CustomEvent('fluent-theme-change', {
+          detail: { theme: isDark ? 'dark' : 'light' }
+        }));
+      }
+
+      // Initialize theme and event listeners
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme);
+      updateTheme();
+
+      document.addEventListener('DOMContentLoaded', function() {
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+          if (e.ctrlKey || e.metaKey) {
+            const sections = ['controls', 'layout', 'text', 'navigation', 'media', 'system'];
+            const keyIndex = parseInt(e.key) - 1;
+            if (keyIndex >= 0 && keyIndex < sections.length) {
+              e.preventDefault();
+              navigateToSection(sections[keyIndex]);
+            }
+          }
+          
+          if ((e.key === 'Enter' || e.key === ' ') && document.activeElement) {
+            const element = document.activeElement;
+            if (element.classList.contains('header-tile') || element.classList.contains('component-item')) {
+              e.preventDefault();
+              element.click();
+            }
+          }
+        });
+
+        // Ripple effect
+        document.querySelectorAll('.component-item, .header-tile').forEach(element => {
+          element.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+              position: absolute; border-radius: 50%; pointer-events: none;
+              background: rgba(0, 120, 212, 0.3); transform: scale(0);
+              animation: fluent-ripple 0.6s linear; z-index: 1000;
+              left: ${e.clientX - rect.left}px; top: ${e.clientY - rect.top}px;
+              width: 20px; height: 20px; margin: -10px 0 0 -10px;
+            `;
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+          });
+        });
+
+        // Add ripple animation
+        document.head.appendChild(Object.assign(document.createElement('style'), {
+          textContent: '@keyframes fluent-ripple { to { transform: scale(4); opacity: 0; } }'
+        }));
+
+        // High contrast mode support
+        const contrastQuery = window.matchMedia('(forced-colors: active)');
+        document.documentElement.classList.toggle('high-contrast', contrastQuery.matches);
+        contrastQuery.addEventListener('change', e => 
+          document.documentElement.classList.toggle('high-contrast', e.matches)
+        );
+      });
+    </script>
   </body>
 </html>
