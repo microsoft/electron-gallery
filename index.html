@@ -4,192 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Electron Gallery</title>
+    <link rel="stylesheet" href="styles/fluent-tokens.css">
+    <link rel="stylesheet" href="styles/fluent-components.css">
     <style>
-      /* Fluent UI Design System Variables */
-      :root {
-        /* Fluent UI Color Tokens - Light Theme */
-        --color-neutral-background-1: #ffffff;
-        --color-neutral-background-2: #fafafa;
-        --color-neutral-background-3: #f5f5f5;
-        --color-neutral-background-4: #f0f0f0;
-        --color-neutral-background-5: #ebebeb;
-        --color-neutral-background-6: #e1e1e1;
-        
-        --color-neutral-foreground-1: #242424;
-        --color-neutral-foreground-2: #424242;
-        --color-neutral-foreground-3: #616161;
-        --color-neutral-foreground-4: #757575;
-        
-        --color-neutral-stroke-1: #d1d1d1;
-        --color-neutral-stroke-2: #c7c7c7;
-        --color-neutral-stroke-accessible: #616161;
-        
-        --color-brand-background-1: #0078d4;
-        --color-brand-background-2: #106ebe;
-        --color-brand-foreground-1: #ffffff;
-        
-        --color-subtle-background: #f9f9f9;
-        --color-subtle-background-hover: #f3f3f3;
-        --color-subtle-background-pressed: #eeeeee;
-        
-        --color-neutral-background-inverted: #292929;
-        
-        /* Fluent UI Shadow Tokens */
-        --shadow-2: 0px 1px 2px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12);
-        --shadow-4: 0px 2px 4px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12);
-        --shadow-8: 0px 4px 8px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12);
-        --shadow-16: 0px 8px 16px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12);
-        --shadow-28: 0px 14px 28px rgba(0, 0, 0, 0.24), 0px 0px 8px rgba(0, 0, 0, 0.2);
-        
-        /* Fluent UI Typography Tokens */
-        --font-family-base: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
-        --font-size-base-100: 10px;
-        --font-size-base-200: 12px;
-        --font-size-base-300: 14px;
-        --font-size-base-400: 16px;
-        --font-size-base-500: 20px;
-        --font-size-base-600: 24px;
-        --font-size-hero-700: 28px;
-        --font-size-hero-800: 32px;
-        --font-size-hero-900: 40px;
-        --font-size-hero-1000: 68px;
-        
-        --font-weight-regular: 400;
-        --font-weight-medium: 500;
-        --font-weight-semibold: 600;
-        
-        --line-height-base-100: 14px;
-        --line-height-base-200: 16px;
-        --line-height-base-300: 20px;
-        --line-height-base-400: 22px;
-        --line-height-base-500: 28px;
-        --line-height-base-600: 32px;
-        --line-height-hero-700: 36px;
-        --line-height-hero-800: 40px;
-        --line-height-hero-900: 52px;
-        --line-height-hero-1000: 92px;
-        
-        /* Fluent UI Spacing Tokens */
-        --spacing-horizontal-xs: 2px;
-        --spacing-horizontal-sNudge: 4px;
-        --spacing-horizontal-s: 8px;
-        --spacing-horizontal-mNudge: 12px;
-        --spacing-horizontal-m: 16px;
-        --spacing-horizontal-l: 20px;
-        --spacing-horizontal-xl: 24px;
-        --spacing-horizontal-xxl: 32px;
-        --spacing-horizontal-xxxl: 40px;
-        
-        --spacing-vertical-xs: 2px;
-        --spacing-vertical-sNudge: 4px;
-        --spacing-vertical-s: 8px;
-        --spacing-vertical-mNudge: 12px;
-        --spacing-vertical-m: 16px;
-        --spacing-vertical-l: 20px;
-        --spacing-vertical-xl: 24px;
-        --spacing-vertical-xxl: 32px;
-        --spacing-vertical-xxxl: 40px;
-        
-        /* Fluent UI Border Radius Tokens */
-        --border-radius-none: 0px;
-        --border-radius-small: 2px;
-        --border-radius-medium: 4px;
-        --border-radius-large: 6px;
-        --border-radius-xlarge: 8px;
-        --border-radius-circular: 50%;
-        
-        /* Fluent UI Motion Tokens */
-        --duration-ultra-fast: 50ms;
-        --duration-faster: 100ms;
-        --duration-fast: 150ms;
-        --duration-normal: 200ms;
-        --duration-gentle: 250ms;
-        --duration-slow: 300ms;
-        --duration-slower: 400ms;
-        --duration-ultra-slow: 500ms;
-        
-        --curve-accelerate-max: cubic-bezier(0.9, 0.1, 1, 0.2);
-        --curve-accelerate-mid: cubic-bezier(1, 0, 1, 1);
-        --curve-decelerate-max: cubic-bezier(0.1, 0.9, 0.2, 1);
-        --curve-decelerate-mid: cubic-bezier(0, 0, 0, 1);
-        --curve-easy-ease: cubic-bezier(0.33, 0, 0.67, 1);
-        --curve-linear: cubic-bezier(0, 0, 1, 1);
-      }
-
-      /* Dark Theme */
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --color-neutral-background-1: #1e1e1e;
-          --color-neutral-background-2: #292929;
-          --color-neutral-background-3: #2e2e2e;
-          --color-neutral-background-4: #333333;
-          --color-neutral-background-5: #383838;
-          --color-neutral-background-6: #404040;
-          
-          --color-neutral-foreground-1: #ffffff;
-          --color-neutral-foreground-2: #f5f5f5;
-          --color-neutral-foreground-3: #e1e1e1;
-          --color-neutral-foreground-4: #c7c7c7;
-          
-          --color-neutral-stroke-1: #484848;
-          --color-neutral-stroke-2: #525252;
-          
-          --color-subtle-background: #242424;
-          --color-subtle-background-hover: #2e2e2e;
-          --color-subtle-background-pressed: #383838;
-          
-          --color-neutral-background-inverted: #ffffff;
-        }
-        
-        /* Dark Theme Adjustments for Hero Image */
-        .hero-section {
-          background: #020B20;
-          filter: brightness(0.8);
-        }
-        
-        .hero-overlay {
-          background: linear-gradient(180deg, 
-            transparent 65%,  
-            #1e1e1e 90%) !important;
-        }
-
-        .electron-version {
-          color: var(--color-neutral-foreground-1);
-        }
-
-        .page-title {
-          color: var(--color-neutral-foreground-1);
-        }
-        
-        /* Dark mode Partner Center logo */
-        .partner-center-logo {
-          content: url('assets/Header-Store.dark.png');
-        }
-        
-        /* Dark mode GitHub logo */
-        .github-logo {
-          content: url('assets/Header-Github.dark.png');
-        }
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: var(--font-family-base);
-        font-size: var(--font-size-base-300);
-        line-height: var(--line-height-base-300);
-        font-weight: var(--font-weight-regular);
-        background-color: var(--color-neutral-background-2);
-        color: var(--color-neutral-foreground-1);
-        overflow-x: hidden;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-
+      /* Gallery-specific styles */
       .container {
         width: 100%;
         min-height: 100vh;
@@ -262,6 +80,7 @@
         margin-left: 3px;
       }
 
+      /* Gallery page title override */
       .page-title {
         font-size: var(--font-size-hero-900);
         line-height: var(--line-height-hero-900);
@@ -463,53 +282,6 @@
         line-height: var(--line-height-base-200);
         color: var(--color-neutral-foreground-3);
       }
-
-      /* Fluent UI Focus Styles */
-      .component-item:focus-visible,
-      .header-tile:focus-visible {
-        outline: none;
-      }
-
-      /* Fluent UI Scrollbar Styles */
-      ::-webkit-scrollbar {
-        width: 12px;
-      }
-
-      ::-webkit-scrollbar-track {
-        background: var(--color-neutral-background-3);
-      }
-
-      ::-webkit-scrollbar-thumb {
-        background: var(--color-neutral-stroke-1);
-        border-radius: var(--border-radius-large);
-        border: 2px solid var(--color-neutral-background-3);
-      }
-
-      ::-webkit-scrollbar-thumb:hover {
-        background: var(--color-neutral-stroke-2);
-      }
-
-      /* Reduced Motion Support */
-      @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-        }
-      }
-
-      /* High Contrast Mode Support */
-      @media (forced-colors: active) {
-        .component-item {
-          border: 1px solid ButtonText;
-        }
-        
-        .component-title {
-          color: ButtonText;
-        }
-      }
     </style>
   </head>
   <body>
@@ -637,6 +409,7 @@
       </div>
     </div>
 
+    <script src="scripts/fluent-common.js"></script>
     <script>
       // Enhanced navigation functions
       function navigateToSection(section) {
@@ -648,6 +421,13 @@
 
       function openSample(sample) {
         console.log(`Opening ${sample} sample`);
+        
+        // Navigate to specific sample pages
+        if (sample === 'webview') {
+          window.location.href = 'samples/app-actions.html';
+          return;
+        }
+        
         document.dispatchEvent(new CustomEvent('fluent-sample-open', {
           detail: { sample: sample }
         }));
@@ -658,21 +438,8 @@
         window.open(url, '_blank');
       }
 
-      // Theme management
-      function updateTheme() {
-        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-        document.dispatchEvent(new CustomEvent('fluent-theme-change', {
-          detail: { theme: isDark ? 'dark' : 'light' }
-        }));
-      }
-
-      // Initialize theme and event listeners
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme);
-      updateTheme();
-
+      // Gallery-specific keyboard navigation
       document.addEventListener('DOMContentLoaded', function() {
-        // Keyboard navigation
         document.addEventListener('keydown', function(e) {
           if (e.ctrlKey || e.metaKey) {
             const sections = ['controls', 'layout', 'text', 'navigation', 'media', 'system'];
@@ -682,44 +449,7 @@
               navigateToSection(sections[keyIndex]);
             }
           }
-          
-          if ((e.key === 'Enter' || e.key === ' ') && document.activeElement) {
-            const element = document.activeElement;
-            if (element.classList.contains('header-tile') || element.classList.contains('component-item')) {
-              e.preventDefault();
-              element.click();
-            }
-          }
         });
-
-        // Ripple effect
-        document.querySelectorAll('.component-item, .header-tile').forEach(element => {
-          element.addEventListener('click', function(e) {
-            const rect = this.getBoundingClientRect();
-            const ripple = document.createElement('div');
-            ripple.style.cssText = `
-              position: absolute; border-radius: 50%; pointer-events: none;
-              background: rgba(0, 120, 212, 0.3); transform: scale(0);
-              animation: fluent-ripple 0.6s linear; z-index: 1000;
-              left: ${e.clientX - rect.left}px; top: ${e.clientY - rect.top}px;
-              width: 20px; height: 20px; margin: -10px 0 0 -10px;
-            `;
-            this.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 600);
-          });
-        });
-
-        // Add ripple animation
-        document.head.appendChild(Object.assign(document.createElement('style'), {
-          textContent: '@keyframes fluent-ripple { to { transform: scale(4); opacity: 0; } }'
-        }));
-
-        // High contrast mode support
-        const contrastQuery = window.matchMedia('(forced-colors: active)');
-        document.documentElement.classList.toggle('high-contrast', contrastQuery.matches);
-        contrastQuery.addEventListener('change', e => 
-          document.documentElement.classList.toggle('high-contrast', e.matches)
-        );
       });
     </script>
   </body>

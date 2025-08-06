@@ -1,0 +1,104 @@
+/* Common Layout Components */
+.main-container {
+  width: 100%;
+}
+
+.secondary-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: var(--spacing-vertical-xl) var(--spacing-horizontal-xxxl);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.secondary-page-title {
+  font-size: var(--font-size-hero-800);
+  line-height: var(--line-height-hero-800);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-foreground-1);
+  margin-bottom: var(--spacing-vertical-xl);
+}
+
+/* Common Content Components */
+.content {
+  background: var(--color-neutral-background-1);
+  border: 1px solid var(--color-neutral-stroke-1);
+  border-radius: var(--border-radius-large);
+  padding: var(--spacing-vertical-xl) var(--spacing-horizontal-xl);
+}
+
+.content-text {
+  font-size: var(--font-size-base-400);
+  line-height: var(--line-height-base-400);
+  color: var(--color-neutral-foreground-2);
+}
+
+/* Common Button Components */
+.fluent-button {
+  background: var(--color-neutral-background-1);
+  border: 1px solid var(--color-neutral-stroke-1);
+  border-radius: var(--border-radius-medium);
+  padding: var(--spacing-vertical-s) var(--spacing-horizontal-m);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base-300);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-neutral-foreground-1);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--curve-easy-ease);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-horizontal-s);
+  box-shadow: var(--shadow-2);
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.fluent-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-subtle-background);
+  opacity: 0;
+  transition: opacity var(--duration-faster) var(--curve-easy-ease);
+  z-index: 0;
+}
+
+.fluent-button:hover {
+  border-color: var(--color-neutral-stroke-2);
+  box-shadow: var(--shadow-4);
+}
+
+.fluent-button:hover::before {
+  opacity: 1;
+}
+
+.fluent-button:active {
+  transform: scale(0.98);
+  box-shadow: var(--shadow-2);
+}
+
+.fluent-button:focus-visible {
+  outline: 2px solid var(--color-brand-background-1);
+  outline-offset: 2px;
+}
+
+.fluent-button > * {
+  position: relative;
+  z-index: 1;
+}
+
+.fluent-button .icon {
+  font-family: 'Segoe MDL2 Assets', sans-serif;
+  font-size: var(--font-size-base-300);
+  color: var(--color-neutral-foreground-2);
+}
+
+/* Navigation Specific Styles */
+.back-button {
+  margin-bottom: var(--spacing-vertical-xl);
+}
