@@ -357,7 +357,7 @@
         <div class="section">
           <h2 class="section-heading">Recently added samples</h2>
           <div class="component-list">
-            <div class="component-item" onclick="openSample('webview')" tabindex="0" role="button" aria-label="Open WebView Integration sample">
+            <div class="component-item" onclick="openSample('App Actions')" tabindex="0" role="button" aria-label="Open App Actions sample">
               <div class="component-title">
                 App Actions
               </div>
@@ -365,7 +365,7 @@
                 Create and embed invokable app actions into your Electron applications.
               </div>
             </div>
-            <div class="component-item" onclick="openSample('notifications')" tabindex="0" role="button" aria-label="Open Native Notifications sample">
+            <div class="component-item" onclick="openSample('Model Context Protocol')" tabindex="0" role="button" aria-label="Open Model Context Protocol sample">
               <div class="component-title">
                 Model Context Protocol
               </div>
@@ -373,7 +373,7 @@
                 Invoke tools and access model context in your Electron applications.
               </div>
             </div>
-            <div class="component-item" onclick="openSample('ipc-advanced')" tabindex="0" role="button" aria-label="Open Advanced IPC Patterns sample">
+            <div class="component-item" onclick="openSample('Phi Silica Text Generation')" tabindex="0" role="button" aria-label="Open Phi Silica Text Generation sample">
               <div class="component-title">
                 Phi Silica Text Generation
               </div>
@@ -388,7 +388,7 @@
         <div class="section">
           <h2 class="section-heading">Recently updated samples</h2>
           <div class="component-list">
-            <div class="component-item" onclick="openSample('menu-updates')" tabindex="0" role="button" aria-label="Open Menu System sample">
+            <div class="component-item" onclick="openSample('WinAppSDK')" tabindex="0" role="button" aria-label="Open WinAppSDK sample">
               <div class="component-title">
                 WinAppSDK
               </div>
@@ -396,7 +396,7 @@
                 Integrate WinAppSDK features like Scene Graph and native Windows APIs into your Electron apps.
               </div>
             </div>
-            <div class="component-item" onclick="openSample('file-handling')" tabindex="0" role="button" aria-label="Open File System Access sample">
+            <div class="component-item" onclick="openSample('WinUI')" tabindex="0" role="button" aria-label="Open WinUI sample">
               <div class="component-title">
                WinUI
               </div>
@@ -423,8 +423,13 @@
         console.log(`Opening ${sample} sample`);
         
         // Navigate to specific sample pages
-        if (sample === 'webview') {
+        if (sample === 'App Actions') {
           window.location.href = 'samples/app-actions.html';
+          return;
+        }
+        
+        if (sample === 'Phi Silica Text Generation') {
+          window.location.href = 'samples/phi-silica-text-generation.html';
           return;
         }
         

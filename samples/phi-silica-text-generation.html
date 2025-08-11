@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phi Silica Text Generation - Electron Gallery</title>
+    <link rel="stylesheet" href="../styles/fluent-tokens.css">
+    <link rel="stylesheet" href="../styles/fluent-components.css">
+    <style>
+      .page-layout {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-vertical-xl);
+        margin-top: var(--spacing-vertical-xl);
+      }
+
+      .top-section {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: var(--spacing-horizontal-xl);
+      }
+
+      .bottom-section {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-vertical-xl);
+      }
+
+      .main-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-vertical-xl);
+      }
+
+      .page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: var(--spacing-vertical-l);
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-horizontal-m);
+      }
+
+      .page-icon {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .secondary-page-title {
+        font-size: 20px;
+        display: flex;
+        margin: 0;
+      }
+
+      .export-button {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-horizontal-s);
+        font-size: var(--font-size-base-200);
+        color: var(--color-brand-background-1);
+        text-decoration: none;
+      }
+
+      .export-button:hover {
+        text-decoration: underline;
+      }
+
+      .requirement-card {
+        background: var(--color-neutral-background-1);
+        border: 1px solid var(--color-neutral-stroke-1);
+        border-radius: var(--border-radius-large);
+        padding: var(--spacing-vertical-xl) var(--spacing-horizontal-xl);
+        text-align: center;
+        box-shadow: var(--shadow-2);
+      }
+
+      .requirement-icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto var(--spacing-vertical-m);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .requirement-title {
+        font-size: var(--font-size-base-500);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-neutral-foreground-1);
+        margin-bottom: var(--spacing-vertical-s);
+      }
+
+      .requirement-subtitle {
+        font-size: var(--font-size-base-200);
+        color: var(--color-neutral-foreground-3);
+        margin-bottom: var(--spacing-vertical-m);
+      }
+
+      .requirement-description {
+        font-size: var(--font-size-base-300);
+        color: var(--color-neutral-foreground-2);
+        line-height: var(--line-height-base-400);
+        margin-bottom: var(--spacing-vertical-m);
+      }
+
+      .learn-more-link {
+        color: var(--color-brand-background-1);
+        text-decoration: none;
+        font-size: var(--font-size-base-300);
+      }
+
+      .learn-more-link:hover {
+        text-decoration: underline;
+      }
+
+      .disclaimer {
+        font-size: var(--font-size-base-100);
+        color: var(--color-neutral-foreground-4);
+        margin-top: var(--spacing-vertical-l);
+        padding: var(--spacing-vertical-s) 0;
+        border-top: 1px solid var(--color-neutral-stroke-1);
+      }
+
+      .section-card {
+        background: var(--color-neutral-background-1);
+        border: 1px solid var(--color-neutral-stroke-1);
+        border-radius: var(--border-radius-large);
+        overflow: hidden;
+        box-shadow: var(--shadow-2);
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-vertical-m) var(--spacing-horizontal-xl);
+        background: var(--color-neutral-background-1);
+        border-bottom: 1px solid var(--color-neutral-stroke-1);
+      }
+
+      .section-title {
+        font-size: var(--font-size-base-400);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-neutral-foreground-1);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-horizontal-s);
+      }
+
+      .copy-button {
+        background: none;
+        border: none;
+        color: var(--color-brand-background-1);
+        cursor: pointer;
+        font-size: var(--font-size-base-200);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-horizontal-xs);
+      }
+
+      .code-content {
+        padding: var(--spacing-vertical-xl) var(--spacing-horizontal-xl);
+        font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        font-size: var(--font-size-base-200);
+        line-height: 1.5;
+        color: var(--color-neutral-foreground-1);
+        background: var(--color-neutral-background-1);
+        overflow-x: auto;
+      }
+
+      .code-line {
+        margin-bottom: var(--spacing-vertical-xs);
+      }
+
+      .keyword { color: #0000ff; }
+      .type { color: #2b91af; }
+      .variable { color: #1f1f1f; }
+      .comment { color: #008000; }
+
+      .view-code-link {
+        text-align: center;
+        padding: var(--spacing-vertical-m);
+        border-top: 1px solid var(--color-neutral-stroke-1);
+      }
+
+      .view-code-link a {
+        color: var(--color-brand-background-1);
+        text-decoration: none;
+        font-size: var(--font-size-base-300);
+      }
+
+      .view-code-link a:hover {
+        text-decoration: underline;
+      }
+
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-vertical-l);
+      }
+
+      .sidebar-section {
+        background: var(--color-neutral-background-1);
+        border: 1px solid var(--color-neutral-stroke-1);
+        border-radius: var(--border-radius-large);
+        overflow: hidden;
+        box-shadow: var(--shadow-2);
+        height: 100%;
+      }
+
+      .sidebar-header {
+        padding: var(--spacing-vertical-m) var(--spacing-horizontal-m);
+        background: var(--color-neutral-background-1);
+        border-bottom: 1px solid var(--color-neutral-stroke-1);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-neutral-foreground-1);
+        font-size: var(--font-size-base-300);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-horizontal-s);
+      }
+
+      .sample-list {
+        padding: var(--spacing-vertical-s) 0;
+      }
+
+      .sample-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-horizontal-s);
+        padding: var(--spacing-vertical-s) var(--spacing-horizontal-m);
+        cursor: pointer;
+        transition: background-color var(--duration-faster) var(--curve-easy-ease);
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+        font-size: var(--font-size-base-200);
+        color: var(--color-neutral-foreground-2);
+      }
+
+      .sample-item:hover {
+        background: var(--color-subtle-background-hover);
+      }
+
+      .sample-icon {
+        width: 16px;
+        height: 16px;
+        background: var(--color-neutral-background-5);
+        border-radius: var(--border-radius-small);
+        flex-shrink: 0;
+      }
+
+      .documentation-content {
+        padding: var(--spacing-vertical-xl) var(--spacing-horizontal-xl);
+      }
+
+      .doc-section {
+        margin-bottom: var(--spacing-vertical-l);
+      }
+
+      .doc-section h3 {
+        font-size: var(--font-size-base-400);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-neutral-foreground-1);
+        margin-bottom: var(--spacing-vertical-s);
+      }
+
+      .doc-section p {
+        font-size: var(--font-size-base-300);
+        color: var(--color-neutral-foreground-2);
+        line-height: var(--line-height-base-400);
+        margin-bottom: var(--spacing-vertical-s);
+      }
+
+      .info-box {
+        background: var(--color-neutral-background-4);
+        border: 1px solid var(--color-neutral-stroke-1);
+        border-radius: var(--border-radius-medium);
+        padding: var(--spacing-vertical-m) var(--spacing-horizontal-m);
+        margin: var(--spacing-vertical-m) 0;
+        font-size: var(--font-size-base-200);
+        color: var(--color-neutral-foreground-2);
+      }
+
+      @media (max-width: 768px) {
+        .top-section {
+          grid-template-columns: 1fr;
+          gap: var(--spacing-vertical-xl);
+        }
+        
+        .sidebar {
+          order: -1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="secondary-container">
+      <button class="fluent-button back-button" onclick="goBack()">
+        <span class="icon">&#xE72B;</span>
+        <span>Back</span>
+      </button>
+
+      <div class="page-header">
+        <div class="header-left">
+          <div class="page-icon">
+            <img src="../assets/WCRAPI.png" alt="Text Generation" style="width: 24px; height: 24px; object-fit: contain;" />
+          </div>
+          <h1 class="secondary-page-title">Text Generation</h1>
+        </div>
+        <a href="#" class="export-button">
+          <span>📋</span>
+          Export sample
+        </a>
+      </div>
+
+      <div class="page-layout">
+        <!-- Top section with Copilot+PC requirement and Other samples sidebar -->
+        <div class="top-section">
+          <div class="main-content">
+            <!-- Requirement Card -->
+            <div class="requirement-card">
+              <div class="requirement-icon">
+                <img src="../assets/WCRAPI.png" alt="Copilot+ PC" style="width: 40px; height: 40px; object-fit: contain;" />
+              </div>
+              <div class="requirement-title">Copilot+ PC required</div>
+              <div class="requirement-subtitle">This Windows AI API requires a Copilot+ PC and Windows Insider Preview Build 26120.3073 (Dev or Beta Channel).</div>
+              <div class="requirement-description">
+                <a href="#" class="learn-more-link">Learn more</a>
+              </div>
+              <p class="requirement-description">You can still view the code and export the sample.</p>
+              <div class="disclaimer">
+                ⚠️ AI generated content might be incorrect, offensive, or biased.
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="sidebar">
+            <div class="sidebar-section">
+              <div class="sidebar-header">
+                <span>📋</span>
+                Other samples
+              </div>
+              <div class="sample-list">
+                <!-- Sample items will be added here as they become available -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom section with full-width API and Documentation -->
+        <div class="bottom-section">
+          <!-- API Section -->
+          <div class="section-card">
+            <div class="section-header">
+              <div class="section-title">
+                <span>🔧</span>
+                API
+              </div>
+              <button class="copy-button">
+                <span>📋</span>
+                Copy
+              </button>
+            </div>
+            <div class="code-content">
+              <div class="code-line"><span class="keyword">using</span> Microsoft.Windows.AI;</div>
+              <div class="code-line"><span class="keyword">using</span> Microsoft.Windows.AI.Text;</div>
+              <div class="code-line"></div>
+              <div class="code-line"><span class="keyword">var</span> <span class="variable">readyState</span> = LanguageModel.GetReadyState();</div>
+              <div class="code-line"><span class="keyword">if</span> (readyState <span class="keyword">is</span> AIFeatureReadyState.Ready <span class="keyword">or</span> AIFeatureReadyState.NotReady)</div>
+            </div>
+            <div class="view-code-link">
+              <a href="#">View code</a>
+            </div>
+          </div>
+
+          <!-- Documentation Section -->
+          <div class="section-card">
+            <div class="section-header">
+              <div class="section-title">
+                <span>📖</span>
+                Documentation
+              </div>
+              <a href="#" class="copy-button" style="text-decoration: none;">
+                View documentation →
+              </a>
+            </div>
+            <div class="documentation-content">
+              <div class="doc-section">
+                <h3>Get started with Phi Silica</h3>
+                <div class="info-box">
+                  ⚠️ <strong>Important:</strong> Phi Silica is not available in China.
+                </div>
+                <p>Phi Silica is a local language model that you can integrate into your Windows apps using Windows AI Foundry.</p>
+                <p>As Microsoft's most powerful NPU-tuned local language model, Phi Silica is optimized for efficiency and performance on Windows Copilot+ PC's devices while still offering many of the capabilities found in Large Language Models (LLMs).</p>
+                <p>This level of optimization is exclusive to the model within the Windows App SDK and is not available in other versions of Phi. For API details, see:</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../scripts/fluent-common.js"></script>
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+
+      // Copy functionality
+      document.querySelectorAll('.copy-button').forEach(button => {
+        button.addEventListener('click', function() {
+          // In a real implementation, this would copy the code to clipboard
+          console.log('Copy functionality would be implemented here');
+        });
+      });
+
+      // Sample navigation
+      document.querySelectorAll('.sample-item').forEach(item => {
+        item.addEventListener('click', function() {
+          const sampleName = this.textContent.trim();
+          console.log(`Navigate to ${sampleName} sample`);
+          // In a real implementation, this would navigate to other samples
+        });
+      });
+    </script>
+  </body>
+</html>
