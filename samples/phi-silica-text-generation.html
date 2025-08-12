@@ -18,6 +18,8 @@
         display: grid;
         grid-template-columns: 1fr 300px;
         gap: var(--spacing-horizontal-xl);
+        min-height: 350px;
+        align-items: stretch;
       }
 
       .bottom-section {
@@ -30,6 +32,23 @@
         display: flex;
         flex-direction: column;
         gap: var(--spacing-vertical-xl);
+        height: 100%;
+      }
+
+      #copilot-section {
+        flex: 1 1 auto;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #copilot-section > div {
+        flex: 1 1 auto;
+        height: 100%;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
       }
 
       .page-header {
@@ -140,7 +159,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: var(--spacing-vertical-m) var(--spacing-horizontal-xl);
+        padding: var(--spacing-vertical-m) var(--spacing-horizontal-m);
         background: var(--color-neutral-background-1);
         border-bottom: 1px solid var(--color-neutral-stroke-1);
       }
@@ -259,7 +278,7 @@
       }
 
       .documentation-content {
-        padding: var(--spacing-vertical-xl) var(--spacing-horizontal-xl);
+        padding: var(--spacing-vertical-m) var(--spacing-horizontal-m);
       }
 
       .doc-section {
@@ -290,15 +309,100 @@
         color: var(--color-neutral-foreground-2);
       }
 
-      @media (max-width: 768px) {
+      /* WinUI-like text input styles for the fun fact generator */
+      #copilot-section > div {
+        background: linear-gradient(120deg, #f6f9ff 0%, #eaf2fb 60%, #f6f9ff 100%);
+        border: 1px solid var(--color-neutral-stroke-1);
+        border-radius: var(--border-radius-large);
+        box-shadow: var(--shadow-2);
+        padding: 16px 16px 12px 16px;
+        height: 100%;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      #fact-form {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        align-items: center;
+        width: 100%;
+      }
+      #fact-input {
+        background: var(--color-neutral-background-1);
+        border: 1.5px solid var(--color-neutral-stroke-1);
+        border-radius: 6px;
+        font-size: 14.5px;
+        padding: 9px;
+        outline: none;
+        min-width: 0;
+        transition: border-color 0.15s, box-shadow 0.15s;
+        box-shadow: none;
+        color: var(--color-neutral-foreground-1);
+        flex: 1 1 auto;
+      }
+      #fact-input:hover {
+        border-color: var(--color-brand-background-1);
+        box-shadow: 0 0 0 2px rgba(0,120,212,0.08);
+      }
+      #fact-input:focus {
+        border-color: var(--color-brand-background-1);
+        box-shadow: 0 0 0 2px var(--color-brand-background-1);
+      }
+      #fact-input:active {
+        border-color: var(--color-brand-background-2, #005a9e);
+        box-shadow: 0 0 0 2px var(--color-brand-background-2, #005a9e);
+      }
+      #fact-input::placeholder {
+        color: var(--color-neutral-foreground-4);
+        opacity: 1;
+      }
+      #fact-generate {
+        background: #0078d4;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 9px 17px;
+        font-size: 14.5px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background 0.15s, box-shadow 0.15s;
+        box-shadow: none;
+        flex: 0 0 auto;
+      }
+      #fact-generate:hover {
+        background: #106ebe;
+        box-shadow: 0 2px 8px 0 rgba(0,0,0,0.06);
+      }
+      #fact-generate:active {
+        background: #005a9e;
+        box-shadow: 0 1px 4px 0 rgba(0,0,0,0.10);
+      }
+      #fact-result {
+        margin-top: 24px;
+        font-size: 14px;
+        color: var(--color-neutral-foreground-2);
+        min-height: 60px;
+      }
+      #copilot-section .fact-disclaimer {
+        margin-top: 12px;
+        font-size: 12px;
+        color: #888;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 0;
+        /* Stick to bottom of section */
+        margin-top: auto;
+      }
+
+      @media (max-width: 1000px) {
         .top-section {
           grid-template-columns: 1fr;
           gap: var(--spacing-vertical-xl);
         }
-        
-        .sidebar {
-          order: -1;
-        }
+
       }
     </style>
   </head>
@@ -306,7 +410,6 @@
     <div class="secondary-container">
       <button class="fluent-button back-button" onclick="goBack()">
         <span class="icon">&#xE72B;</span>
-        <span>Back</span>
       </button>
 
       <div class="page-header">
@@ -317,8 +420,8 @@
           <h1 class="secondary-page-title">Text Generation</h1>
         </div>
         <a href="#" class="export-button">
-          <span>📋</span>
-          Export sample
+          <span class="icon" style="font-family: 'Segoe MDL2 Assets', sans-serif; font-size: 16px; color: var(--color-communication-foreground, #0078d4);">&#xEE71;</span>
+          <span style="color: var(--color-communication-foreground, #0078d4);">Export sample</span>
         </a>
       </div>
 
@@ -326,28 +429,15 @@
         <!-- Top section with Copilot+PC requirement and Other samples sidebar -->
         <div class="top-section">
           <div class="main-content">
-            <!-- Requirement Card -->
-            <div class="requirement-card">
-              <div class="requirement-icon">
-                <img src="../assets/WCRAPI.png" alt="Copilot+ PC" style="width: 40px; height: 40px; object-fit: contain;" />
-              </div>
-              <div class="requirement-title">Copilot+ PC required</div>
-              <div class="requirement-subtitle">This Windows AI API requires a Copilot+ PC and Windows Insider Preview Build 26120.3073 (Dev or Beta Channel).</div>
-              <div class="requirement-description">
-                <a href="#" class="learn-more-link">Learn more</a>
-              </div>
-              <p class="requirement-description">You can still view the code and export the sample.</p>
-              <div class="disclaimer">
-                ⚠️ AI generated content might be incorrect, offensive, or biased.
-              </div>
-            </div>
+            <!-- Requirement Card (conditionally rendered) -->
+            <div id="copilot-section"></div>
           </div>
 
           <!-- Sidebar -->
           <div class="sidebar">
             <div class="sidebar-section">
               <div class="sidebar-header">
-                <span>📋</span>
+                <span class="icon" style="font-family: 'Segoe MDL2 Assets', sans-serif; font-size: 16px; color: var(--color-communication-foreground, #0078d4);">&#xF12B;</span>
                 Other samples
               </div>
               <div class="sample-list">
@@ -363,23 +453,50 @@
           <div class="section-card">
             <div class="section-header">
               <div class="section-title">
-                <span>🔧</span>
+                <span class="icon" style="font-family: 'Segoe MDL2 Assets', sans-serif; font-size: 16px; color: var(--color-communication-foreground, #0078d4);">&#xE943;</span>
                 API
               </div>
               <button class="copy-button">
-                <span>📋</span>
-                Copy
+                <span class="icon" style="font-family: 'Segoe MDL2 Assets', sans-serif; font-size: 16px; color: var(--color-communication-foreground, #0078d4);">&#xE8C8;</span>
+                <span style="color: var(--color-communication-foreground, #0078d4);">Copy</span>
               </button>
             </div>
-            <div class="code-content">
+            <div class="code-content" id="api-code-preview">
               <div class="code-line"><span class="keyword">using</span> Microsoft.Windows.AI;</div>
               <div class="code-line"><span class="keyword">using</span> Microsoft.Windows.AI.Text;</div>
               <div class="code-line"></div>
               <div class="code-line"><span class="keyword">var</span> <span class="variable">readyState</span> = LanguageModel.GetReadyState();</div>
               <div class="code-line"><span class="keyword">if</span> (readyState <span class="keyword">is</span> AIFeatureReadyState.Ready <span class="keyword">or</span> AIFeatureReadyState.NotReady)</div>
+              <div class="code-line">  <span class="comment">// ...</span></div>
+            </div>
+            <div class="code-content" id="api-code-full" style="display:none;">
+              <div class="code-line"><span class="keyword">using</span> Microsoft.Windows.AI;</div>
+              <div class="code-line"><span class="keyword">using</span> Microsoft.Windows.AI.Text;</div>
+              <div class="code-line"></div>
+              <div class="code-line"><span class="keyword">var</span> <span class="variable">readyState</span> = LanguageModel.GetReadyState();</div>
+              <div class="code-line"><span class="keyword">if</span> (<span class="variable">readyState</span> <span class="keyword">is</span> AIFeatureReadyState.Ready <span class="keyword">or</span> AIFeatureReadyState.NotReady)</div>
+              <div class="code-line">{</div>
+              <div class="code-line">    <span class="keyword">if</span> (<span class="variable">readyState</span> == AIFeatureReadyState.NotReady)</div>
+              <div class="code-line">    {</div>
+              <div class="code-line">        <span class="keyword">var</span> <span class="variable">op</span> = <span class="keyword">await</span> LanguageModel.EnsureReadyAsync();</div>
+              <div class="code-line">    }</div>
+              <div class="code-line"></div>
+              <div class="code-line">    <span class="keyword">using</span> LanguageModel <span class="variable">languageModel</span> = <span class="keyword">await</span> LanguageModel.CreateAsync();</div>
+              <div class="code-line"></div>
+              <div class="code-line">    <span class="type">string</span> <span class="variable">prompt</span> = "Tell me a short story";</div>
+              <div class="code-line"></div>
+              <div class="code-line">    <span class="keyword">var</span> <span class="variable">result</span> = <span class="variable">languageModel</span>.GenerateResponseAsync(<span class="variable">prompt</span>);</div>
+              <div class="code-line"></div>
+              <div class="code-line">    <span class="variable">result</span>.Progress += (sender, args) =></div>
+              <div class="code-line">    {</div>
+              <div class="code-line">        Console.Write(args);</div>
+              <div class="code-line">    };</div>
+              <div class="code-line"></div>
+              <div class="code-line">    <span class="keyword">await</span> <span class="variable">result</span>;</div>
+              <div class="code-line">}</div>
             </div>
             <div class="view-code-link">
-              <a href="#">View code</a>
+                <a href="#" id="view-code-btn">View code</a>
             </div>
           </div>
 
@@ -387,23 +504,15 @@
           <div class="section-card">
             <div class="section-header">
               <div class="section-title">
-                <span>📖</span>
+                <span class="icon" style="font-family: 'Segoe MDL2 Assets', sans-serif; font-size: 16px; color: var(--color-communication-foreground, #0078d4);">&#xE7C3;</span>
                 Documentation
               </div>
-              <a href="#" class="copy-button" style="text-decoration: none;">
+              <a href="https://learn.microsoft.com/en-us/windows/ai/apis/phi-silica" class="copy-button" style="text-decoration: none; color: var(--color-communication-foreground, #0078d4);" target="_blank" rel="noopener noreferrer">
                 View documentation →
               </a>
             </div>
             <div class="documentation-content">
-              <div class="doc-section">
-                <h3>Get started with Phi Silica</h3>
-                <div class="info-box">
-                  ⚠️ <strong>Important:</strong> Phi Silica is not available in China.
-                </div>
-                <p>Phi Silica is a local language model that you can integrate into your Windows apps using Windows AI Foundry.</p>
-                <p>As Microsoft's most powerful NPU-tuned local language model, Phi Silica is optimized for efficiency and performance on Windows Copilot+ PC's devices while still offering many of the capabilities found in Large Language Models (LLMs).</p>
-                <p>This level of optimization is exclusive to the model within the Windows App SDK and is not available in other versions of Phi. For API details, see:</p>
-              </div>
+              <div id="phi-silica-doc-markdown">Loading documentation...</div>
             </div>
           </div>
         </div>
@@ -431,6 +540,186 @@
           console.log(`Navigate to ${sampleName} sample`);
           // In a real implementation, this would navigate to other samples
         });
+      });
+
+      function isInsiderBuild() {
+        // Temporarily always return true
+        return true;
+      }
+
+      function renderCopilotSection() {
+        const container = document.getElementById('copilot-section');
+        if (isInsiderBuild()) {
+          // Show the AI fun fact generator UI (from screenshot)
+          container.innerHTML = `
+            <div>
+              <form id="fact-form">
+                <input id="fact-input" type="text" value="Tell me a fun fact about space." />
+                <button id="fact-generate" type="submit">Generate</button>
+              </form>
+              <div id="fact-result">Space is mostly vacuum. About 99.9% of it is empty, and it's this emptiness that allows it to exist as we know it. It's interesting because this vast emptiness isn't what people often think when they say "vacuum" - the "vacuum" here isn't a zero pressure or air-sucking situation. In physics, it simply means no particles and therefore no matter or energy!</div>
+              <div class="fact-disclaimer">
+                <span style="font-family: 'Segoe MDL2 Assets', 'Segoe UI Symbol', 'Segoe UI', Arial, sans-serif; font-size: 16px;">&#xE946;</span>
+                AI-generated content might be incorrect, offensive, or biased.
+              </div>
+            </div>
+          `;
+          document.getElementById('fact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const input = document.getElementById('fact-input').value;
+            const result = document.getElementById('fact-result');
+            // Simulate AI response
+            result.textContent = 'Generating...';
+            setTimeout(() => {
+              result.textContent = 'Space is mostly vacuum. About 99.9% of it is empty, and it\'s this emptiness that allows it to exist as we know it. It\'s interesting because this vast emptiness isn\'t what people often think when they say "vacuum" - the "vacuum" here isn\'t a zero pressure or air-sucking situation. In physics, it simply means no particles and therefore no matter or energy!';
+              result.style.color = 'var(--color-neutral-foreground-2)';
+            }, 1200);
+          });
+        } else {
+          // Show the original Copilot+ PC requirement card
+          container.innerHTML = `
+            <div class="requirement-card">
+              <div class="requirement-icon">
+                <img src="../assets/WCRAPI.png" alt="Copilot+ PC" style="width: 40px; height: 40px; object-fit: contain;" />
+              </div>
+              <div class="requirement-title">Copilot+ PC required</div>
+              <div class="requirement-subtitle">This Windows AI API requires a Copilot+ PC and Windows Insider Preview Build 26120.3073 (Dev or Beta Channel).</div>
+              <div class="requirement-description">
+                <a href="#" class="learn-more-link">Learn more</a>
+              </div>
+              <p class="requirement-description">You can still view the code and export the sample.</p>
+              <div class="disclaimer">
+                ⚠️ AI generated content might be incorrect, offensive, or biased.
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', renderCopilotSection);
+        // API section expander logic
+        document.addEventListener('DOMContentLoaded', function() {
+          var viewCodeBtn = document.getElementById('view-code-btn');
+          if (viewCodeBtn) {
+            viewCodeBtn.addEventListener('click', function(e) {
+              e.preventDefault();
+              // Show full code, hide preview and view code link
+              var preview = document.getElementById('api-code-preview');
+              var full = document.getElementById('api-code-full');
+              var viewCodeLink = viewCodeBtn.parentElement;
+              if (preview && full && viewCodeLink) {
+                preview.style.display = 'none';
+                full.style.display = '';
+                viewCodeLink.style.display = 'none';
+              }
+            });
+          }
+        });
+    </script>
+
+    <!-- GitHub-like markdown styles -->
+    <style>
+    #phi-silica-doc-markdown {
+      font-family: 'Segoe UI', 'Segoe UI Web', Arial, sans-serif;
+      color: var(--color-neutral-foreground-1);
+      background: none;
+      padding: 0;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    #phi-silica-doc-markdown h1,
+    #phi-silica-doc-markdown h2,
+    #phi-silica-doc-markdown h3,
+    #phi-silica-doc-markdown h4,
+    #phi-silica-doc-markdown h5,
+    #phi-silica-doc-markdown h6 {
+      font-weight: 600;
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+      color: var(--color-neutral-foreground-1);
+      line-height: 1.25;
+    }
+    #phi-silica-doc-markdown h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+    #phi-silica-doc-markdown h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+    #phi-silica-doc-markdown h3 { font-size: 1.25em; }
+    #phi-silica-doc-markdown h4 { font-size: 1.1em; }
+    #phi-silica-doc-markdown p { margin: 1em 0; }
+    #phi-silica-doc-markdown ul, #phi-silica-doc-markdown ol { margin: 1em 0 1em 2em; }
+    #phi-silica-doc-markdown li { margin: 0.3em 0; }
+    #phi-silica-doc-markdown code {
+      background: #f6f8fa;
+      color: #24292f;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 0.97em;
+      border-radius: 4px;
+      padding: 0.2em 0.4em;
+    }
+    #phi-silica-doc-markdown pre {
+      background: #f6f8fa;
+      color: #24292f;
+      border-radius: 6px;
+      padding: 1em;
+      overflow-x: auto;
+      font-size: 0.97em;
+      margin: 1em 0;
+    }
+    #phi-silica-doc-markdown blockquote {
+      border-left: 4px solid #d0d7de;
+      color: #6a737d;
+      padding: 0.5em 1em;
+      margin: 1em 0;
+      background: #f6f8fa;
+    }
+    #phi-silica-doc-markdown table {
+      border-collapse: collapse;
+      margin: 1em 0;
+      width: 100%;
+    }
+    #phi-silica-doc-markdown th, #phi-silica-doc-markdown td {
+      border: 1px solid #d0d7de;
+      padding: 0.5em 1em;
+      text-align: left;
+    }
+    #phi-silica-doc-markdown th {
+      background: #f6f8fa;
+      font-weight: 600;
+    }
+    #phi-silica-doc-markdown a {
+      color: var(--color-communication-foreground, #0078d4);
+      text-decoration: underline;
+    }
+    #phi-silica-doc-markdown hr {
+      border: none;
+      border-top: 1px solid #eaecef;
+      margin: 2em 0;
+    }
+    #phi-silica-doc-markdown img {
+      max-width: 100%;
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      margin: 1em 0;
+    }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+    // Fetch and render markdown for documentation, skipping everything before the 'Get started with Phi Silica' header
+    const docContainer = document.getElementById('phi-silica-doc-markdown');
+    fetch('https://raw.githubusercontent.com/MicrosoftDocs/windows-ai-docs/docs/docs/apis/phi-silica.md')
+      .then(response => response.ok ? response.text() : Promise.reject('Failed to load documentation'))
+      .then(md => {
+        // Find the first header that reads 'Get started with Phi Silica' (case-insensitive)
+        const startMatch = md.match(/^(#+\s*Get started with Phi Silica.*)$/im);
+        let filtered = md;
+        if (startMatch) {
+          filtered = md.substring(md.indexOf(startMatch[1]));
+        }
+        // Replace [!IMPORTANT] with E946 icon (info) and Important, both in Fluent UI deep blue, inline and same font size as text
+        filtered = filtered.replace(/\[!IMPORTANT\]/g, '<span style="font-family: \'Segoe MDL2 Assets\', sans-serif; color: var(--color-communication-foreground, #0078d4); font-size: 1em; vertical-align: middle; display: inline; margin-right: 4px;">&#xE946;</span>');
+        docContainer.innerHTML = marked.parse(filtered.trim());
+      })
+      .catch(err => {
+        docContainer.textContent = 'Failed to load documentation.';
       });
     </script>
   </body>

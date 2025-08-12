@@ -35,24 +35,18 @@
 
 /* Common Button Components */
 .fluent-button {
-  background: var(--color-neutral-background-1);
-  border: 1px solid var(--color-neutral-stroke-1);
-  border-radius: var(--border-radius-medium);
-  padding: var(--spacing-vertical-s) var(--spacing-horizontal-m);
+  padding: var(--spacing-vertical-xs) var(--spacing-horizontal-s); /* Reduced padding for less margin/space around content */
   font-family: var(--font-family-base);
   font-size: var(--font-size-base-300);
   font-weight: var(--font-weight-medium);
-  color: var(--color-neutral-foreground-1);
   cursor: pointer;
   transition: all var(--duration-normal) var(--curve-easy-ease);
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-horizontal-s);
-  box-shadow: var(--shadow-2);
-  outline: none;
+  gap: var(--spacing-horizontal-xs); /* Reduced gap between icon and text */
   position: relative;
   overflow: hidden;
-  text-decoration: none;
+  outline: none;
 }
 
 .fluent-button::before {
@@ -62,33 +56,16 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--color-subtle-background);
   opacity: 0;
   transition: opacity var(--duration-faster) var(--curve-easy-ease);
   z-index: 0;
 }
 
-.fluent-button:hover {
-  border-color: var(--color-neutral-stroke-2);
-  box-shadow: var(--shadow-4);
-}
-
-.fluent-button:hover::before {
-  opacity: 1;
-}
-
 .fluent-button:active {
   transform: scale(0.98);
-  box-shadow: var(--shadow-2);
-}
-
-.fluent-button:focus-visible {
-  outline: 2px solid var(--color-brand-background-1);
-  outline-offset: 2px;
 }
 
 .fluent-button > * {
-  position: relative;
   z-index: 1;
 }
 
@@ -100,5 +77,13 @@
 
 /* Navigation Specific Styles */
 .back-button {
-  margin-bottom: var(--spacing-vertical-xl);
+  position: fixed;
+  top: 7px;
+  left: 7px;
+  margin: 0;
+  z-index: 1000;
+  background: none;
+  outline: none;
+  border: none;
+  box-shadow: none;
 }
