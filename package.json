@@ -13,5 +13,8 @@
   "private": false,
   "devDependencies": {
     "electron": "^37.2.5"
+  },
+  "dependencies": {
+    "windows-sdks": "file:../winsdk-electron/src/windows-sdks-1.0.0.tgz"
   }
 }
