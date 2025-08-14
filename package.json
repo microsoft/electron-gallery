@@ -5,14 +5,18 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-myAddon": "node-gyp clean configure build --directory=myAddon"
   },
   "repository": "https://github.com/microsoft/electron-gallery",
   "author": "Microsoft",
   "license": "MIT",
   "private": false,
   "devDependencies": {
-    "electron": "^37.2.5"
+    "electron": "^37.2.5",
+    "nan": "^2.23.0",
+    "node-addon-api": "^8.5.0",
+    "node-gyp": "^11.3.0"
   },
   "dependencies": {
     "windows-sdks": "file:../winsdk-electron/src/windows-sdks-1.0.0.tgz"

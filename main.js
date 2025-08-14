@@ -1,5 +1,7 @@
 const { app, BrowserWindow, shell } = require('electron/main')
 
+const myAddon = require('./myAddon/build/Release/myAddon.node');
+
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
@@ -23,6 +25,8 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
   createWindow()
+  
+  myAddon.showNotification("hello", "world")
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
